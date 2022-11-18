@@ -1,4 +1,4 @@
-# PERN-Stack-Yelp-Clone
+# PERN-restaurants-finder-app
 This is full stack PERN app  (Postgres, Express, React, Node.js) to understand the how any full stack product work 
 
 ## following is the workflow of our app 
