@@ -59,6 +59,8 @@ app.post("/api/v1/restaurants", async (req, res) => {
   console.log(req.body);
 
   try {
+    // returning * for by default postgres not return value which is created or updated so we need mention returning *
+
     const result = await db.query(
       `INSERT INTO restaurants(name,location,price_range) values($1,$2,$3) returning *`,
       [req.body.name, req.body.location, req.body.price_range]
