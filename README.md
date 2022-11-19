@@ -8,6 +8,8 @@ This is full stack PERN app  (Postgres, Express, React, Node.js) to understand t
 Step1: Create DB design
 Step2: Create Server and create api end points 
 Step3: Connect server to postgres by using node-postgres library
+Step4: Set up frontend with react
+Step5: Use bootstrap and font Awesome for styling 
 
 
 ## Database Design
