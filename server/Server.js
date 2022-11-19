@@ -2,9 +2,11 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 3005;
 const db = require("./db");
+const cors = require("cors");
 
 // middleware to retrive Json data from body
 app.use(express.json());
+app.use(cors());
 
 //Get all restaurants
 /*
@@ -15,7 +17,7 @@ so that's why we need to make js async simple...
 app.get("/api/v1/restaurants", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM restaurants");
-    console.log(result);
+    //console.log(result);
     res.status(200).json({
       status: "ok",
       results: result.rows.length,
@@ -30,7 +32,7 @@ app.get("/api/v1/restaurants", async (req, res) => {
 
 //Get individual restaurants
 app.get("/api/v1/restaurants/:id", async (req, res) => {
-  console.log(req.params.id);
+  // console.log(req.params.id);
   try {
     // in this result we get recird which we mention id
     // we should not have to pass directly the req.param.id to quesry may be it will create sql injection vulnerabilities
@@ -40,7 +42,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
     const result = await db.query(`SELECT * FROM restaurants where id=$1`, [
       req.params.id,
     ]);
-    console.log(result);
+    // console.log(result);
     res.status(200).json({
       status: "ok",
       results: result.rows.length,
@@ -56,7 +58,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
 
 //Create a restaurant
 app.post("/api/v1/restaurants", async (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
 
   try {
     // returning * for by default postgres not return value which is created or updated so we need mention returning *
@@ -65,7 +67,7 @@ app.post("/api/v1/restaurants", async (req, res) => {
       `INSERT INTO restaurants(name,location,price_range) values($1,$2,$3) returning *`,
       [req.body.name, req.body.location, req.body.price_range]
     );
-    console.log(result);
+    //  console.log(result);
     res.status(201).json({
       status: "ok",
       data: {
@@ -79,15 +81,15 @@ app.post("/api/v1/restaurants", async (req, res) => {
 
 //Update the restaurant
 app.put("/api/v1/restaurants/:id", async (req, res) => {
-  console.log(req.params.id);
-  console.log(req.body);
+  //  console.log(req.params.id);
+  // console.log(req.body);
 
   try {
     const result = await db.query(
       `UPDATE restaurants SET name=$1,location=$2,price_range=$3 where id=$4 returning *`,
       [req.body.name, req.body.location, req.body.price_range, req.params.id]
     );
-    console.log(result);
+    //console.log(result);
     res.status(200).json({
       status: "ok",
       data: {

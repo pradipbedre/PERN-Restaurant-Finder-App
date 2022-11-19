@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import RestaurantApi from "../apis/RestaurantApi";
 
 const RestaurantsList = () => {
+
+
+  useEffect(() => {
+    // so we need to create saprat function to fetch data
+    // because useeffect gives error if we return promiss
+    const fetchData = async () => {
+      try {
+        const response = await RestaurantApi.get("/");
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="list-group">
       <table className=" table table-hover table-dark mt-5">
-        <thead className="">
-          <tr className="bg-primary" >
+        <thead>
+          <tr>
             <th scope="col">Restaurant</th>
             <th scope="col">Locatio</th>
             <th scope="col">Price Range</th>
@@ -51,7 +68,6 @@ const RestaurantsList = () => {
               <button className="btn btn-danger">Delete</button>
             </td>
           </tr>
-          
         </tbody>
       </table>
     </div>
