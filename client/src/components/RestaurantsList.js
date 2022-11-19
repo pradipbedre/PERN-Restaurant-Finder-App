@@ -1,8 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import RestaurantApi from "../apis/RestaurantApi";
+import { RestaurantsContext } from "../context/RestaurantsContext";
 
-const RestaurantsList = () => {
-
+const RestaurantsList = (props) => {
+  // importing from contect apis this make asscess to all compl
+  const [restaurants, setRestaurants] = useContext(RestaurantsContext);
 
   useEffect(() => {
     // so we need to create saprat function to fetch data
@@ -10,13 +12,26 @@ const RestaurantsList = () => {
     const fetchData = async () => {
       try {
         const response = await RestaurantApi.get("/");
-        console.log(response);
+        setRestaurants(response.data.data.restaurants);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
   }, []);
+
+  const haldelDelete = async (id) => {
+    try {
+      const response = await RestaurantApi.delete(`/${id}`);
+      setRestaurants(
+        restaurants.filter((res) => {
+          return res.id !== id;
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="list-group">
@@ -32,42 +47,29 @@ const RestaurantsList = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>ApanaDhaba</td>
-            <td>Pune</td>
-            <td>$$$$$</td>
-            <td>rating</td>
-            <td>
-              <button className="btn btn-warning">Update</button>
-            </td>
-            <td>
-              <button className="btn btn-danger">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>ApanaDhaba</td>
-            <td>Pune</td>
-            <td>$$$$$</td>
-            <td>rating</td>
-            <td>
-              <button className="btn btn-warning">Update</button>
-            </td>
-            <td>
-              <button className="btn btn-danger">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>ApanaDhaba</td>
-            <td>Pune</td>
-            <td>$$$$$</td>
-            <td>rating</td>
-            <td>
-              <button className="btn btn-warning">Update</button>
-            </td>
-            <td>
-              <button className="btn btn-danger">Delete</button>
-            </td>
-          </tr>
+          {restaurants &&
+            restaurants.map((restaurant) => {
+              return (
+                <tr key={restaurant.id}>
+                  <td>{restaurant.name}</td>
+                  <td>{restaurant.location}</td>
+                  {/* we are repeating $ sign with price range value  */}
+                  <td>{"$".repeat(restaurant.price_range)}</td>
+                  <td>review</td>
+                  <td>
+                    <button className="btn btn-warning">Update</button>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => haldelDelete(restaurant.id)}
+                      className="btn btn-danger"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>
