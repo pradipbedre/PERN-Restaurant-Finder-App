@@ -1,10 +1,15 @@
 import React, { useContext, useEffect } from "react";
 import RestaurantApi from "../apis/RestaurantApi";
 import { RestaurantsContext } from "../context/RestaurantsContext";
+import { useNavigate } from "react-router-dom";
 
 const RestaurantsList = (props) => {
   // importing from contect apis this make asscess to all compl
   const [restaurants, setRestaurants] = useContext(RestaurantsContext);
+  /* The react navigation library allows the UI to be in sync with the browser
+  URL by conditionally displaying components. Moreover, 
+it also allows browser functionalities like the back button and page refresh. */
+  const navigate = useNavigate();
 
   useEffect(() => {
     // so we need to create saprat function to fetch data
@@ -33,6 +38,10 @@ const RestaurantsList = (props) => {
     }
   };
 
+  const handelUpdate = (id) => {
+    navigate(`/restautants/${id}/update`);
+  };
+
   return (
     <div className="list-group">
       <table className=" table table-hover table-dark mt-5">
@@ -57,7 +66,12 @@ const RestaurantsList = (props) => {
                   <td>{"$".repeat(restaurant.price_range)}</td>
                   <td>review</td>
                   <td>
-                    <button className="btn btn-warning">Update</button>
+                    <button
+                      onClick={() => handelUpdate(restaurant.id)}
+                      className="btn btn-warning"
+                    >
+                      Update
+                    </button>
                   </td>
                   <td>
                     <button
