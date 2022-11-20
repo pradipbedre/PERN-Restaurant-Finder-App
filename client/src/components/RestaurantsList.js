@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import RestaurantApi from "../apis/RestaurantApi";
 import { RestaurantsContext } from "../context/RestaurantsContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const RestaurantsList = (props) => {
   // importing from contect apis this make asscess to all compl
@@ -10,6 +10,7 @@ const RestaurantsList = (props) => {
   URL by conditionally displaying components. Moreover, 
 it also allows browser functionalities like the back button and page refresh. */
   const navigate = useNavigate();
+  const putlocation = useLocation();
 
   useEffect(() => {
     // so we need to create saprat function to fetch data
@@ -25,7 +26,8 @@ it also allows browser functionalities like the back button and page refresh. */
     fetchData();
   }, []);
 
-  const haldelDelete = async (id) => {
+  const haldelDelete = async (e, id) => {
+    e.stopPropagation();
     try {
       const response = await RestaurantApi.delete(`/${id}`);
       setRestaurants(
@@ -38,8 +40,13 @@ it also allows browser functionalities like the back button and page refresh. */
     }
   };
 
-  const handelUpdate = (id) => {
+  const handelUpdate = (e, id) => {
+    e.stopPropagation();
     navigate(`/restautants/${id}/update`);
+  };
+
+  const handelRestaurantSelect = (id) => {
+    navigate(`/restaurants/${id}`);
   };
 
   return (
@@ -59,7 +66,10 @@ it also allows browser functionalities like the back button and page refresh. */
           {restaurants &&
             restaurants.map((restaurant) => {
               return (
-                <tr key={restaurant.id}>
+                <tr
+                  onClick={() => handelRestaurantSelect(restaurant.id)}
+                  key={restaurant.id}
+                >
                   <td>{restaurant.name}</td>
                   <td>{restaurant.location}</td>
                   {/* we are repeating $ sign with price range value  */}
@@ -67,7 +77,7 @@ it also allows browser functionalities like the back button and page refresh. */
                   <td>review</td>
                   <td>
                     <button
-                      onClick={() => handelUpdate(restaurant.id)}
+                      onClick={(e) => handelUpdate(e, restaurant.id)}
                       className="btn btn-warning"
                     >
                       Update
@@ -75,7 +85,7 @@ it also allows browser functionalities like the back button and page refresh. */
                   </td>
                   <td>
                     <button
-                      onClick={() => haldelDelete(restaurant.id)}
+                      onClick={(e) => haldelDelete(e, restaurant.id)}
                       className="btn btn-danger"
                     >
                       Delete
