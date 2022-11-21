@@ -16,7 +16,10 @@ so that's why we need to make js async simple...
 */
 app.get("/api/v1/restaurants", async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM restaurants");
+    const result = await db.query(
+      "select * from restaurants left join (select restaurant_id,COUNT(*), TRUNC(AVG(rating),1) as average_rating from reviews group by restaurant_id) reviews on restaurants.id=reviews.restaurant_id;"
+    );
+
     //console.log(result);
     res.status(200).json({
       status: "ok",
@@ -39,9 +42,10 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
     // `SELECT * FROM restaurants where id={req.params.id}`
     // node-postgres supports parameterized queries,like follow
     // in simple term whatever in $1 we gone replace with next parameter array
-    const restaurant = await db.query(`SELECT * FROM restaurants where id=$1`, [
-      req.params.id,
-    ]);
+    const restaurant = await db.query(
+      ` select * from restaurants left join (select restaurant_id,COUNT(*), TRUNC(AVG(rating),1) as average_rating from reviews group by restaurant_id) reviews on restaurants.id=reviews.restaurant_id where id=$1;`,
+      [req.params.id]
+    );
 
     // for reviews
     const reviews = await db.query(
@@ -123,11 +127,11 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
   }
 });
 
-// inserting data in reviews table 
+// inserting data in reviews table
 app.post("/api/v1/restaurants/:id/addReview", async (req, res) => {
   try {
     const addReview = await db.query(
-    `INSERT INTO reviews (restaurant_id, name, review, rating) values($1,$2,$3,$4) returning *`,
+      `INSERT INTO reviews (restaurant_id, name, review, rating) values($1,$2,$3,$4) returning *`,
       [req.params.id, req.body.name, req.body.review, req.body.rating]
     );
     console.log(addReview);

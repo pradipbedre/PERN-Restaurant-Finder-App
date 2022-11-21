@@ -27,17 +27,29 @@ const Restaurants_details = () => {
 
   return (
     <div>
-      <>
-        <h1 className="font-weight-light display-1 text-center m-3 mb-4">
-         {/* {selectedRestautant.restaurants.name[0]} */}
-        </h1>
+      {selectedRestautant && (
+        <>
+         {/*  <h1 className="font-weight-light display-1 text-center m-3 mb-4">
+            {selectedRestautant.restaurants.name[0]}
+          </h1>
 
-        <div className="mt-3">
-          <Reviews reviews={selectedRestautant.reviews} />
-          
-        </div>
-        <AddReview />
-      </>
+          <div className="text-center">
+            <Starrating
+              rating={selectedRestautant.restaurants.average_rating}
+            />
+            <span className="text-warning ml-1">
+              {selectedRestautant.restaurants.count
+                ? `(${selectedRestautant.restaurants.count})`
+                : "(0)"}
+            </span>
+          </div> */}
+
+          <div className="mt-3">
+            <Reviews reviews={selectedRestautant.reviews} />
+          </div>
+          <AddReview />
+        </>
+      )}
     </div>
   );
 };
