@@ -30,6 +30,13 @@ Step6: Use Context API for passing props
 4.  make little checks because it will help us to make application down like
     Ans: thisIsDefine && thisIsDefine.name means thisIsDefine is present then it will execute following code
 
-## Database Table
+## Database Tables
+![firefox_pYqFtFj9tx](https://user-images.githubusercontent.com/60803643/203041478-0c8b1b58-3951-4ba1-81d4-200c5d963fc5.png)
+
 
 ## API Endpoints
+![api endpoints](https://user-images.githubusercontent.com/60803643/203041423-3cd4c2ad-5b45-4238-b3d3-0035e0530327.png)
+
+
+
+
