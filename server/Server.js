@@ -39,16 +39,24 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
     // `SELECT * FROM restaurants where id={req.params.id}`
     // node-postgres supports parameterized queries,like follow
     // in simple term whatever in $1 we gone replace with next parameter array
-    const result = await db.query(`SELECT * FROM restaurants where id=$1`, [
+    const restaurant = await db.query(`SELECT * FROM restaurants where id=$1`, [
       req.params.id,
     ]);
-    // console.log(result);
+
+    // for reviews
+    const reviews = await db.query(
+      `SELECT * FROM reviews where restaurant_id=$1`,
+      [req.params.id]
+    );
+    //console.log(reviews);
+    // console.log(restaurant);
     res.status(200).json({
       status: "ok",
-      results: result.rows.length,
+      results: restaurant.rows.length,
       data: {
         // there is only one record id matches
-        restaurants: result.rows[0],
+        restaurants: restaurant.rows[0],
+        reviews: reviews.rows,
       },
     });
   } catch (error) {
@@ -109,6 +117,25 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
     ]);
     res.status(204).json({
       status: "ok",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// inserting data in reviews table 
+app.post("/api/v1/restaurants/:id/addReview", async (req, res) => {
+  try {
+    const addReview = await db.query(
+    `INSERT INTO reviews (restaurant_id, name, review, rating) values($1,$2,$3,$4) returning *`,
+      [req.params.id, req.body.name, req.body.review, req.body.rating]
+    );
+    console.log(addReview);
+    res.status(201).json({
+      status: "ok",
+      data: {
+        reviews: addReview.rows[0],
+      },
     });
   } catch (error) {
     console.log(error);

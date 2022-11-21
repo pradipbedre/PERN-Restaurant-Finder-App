@@ -18,3 +18,19 @@ insert into restaurants(name, location, price_range) values('{apanaJayka}','{dhe
 select * from restaurants;
 
 drop table restaurants;
+
+CREATE TABLE reviews(
+  id BIGSERIAL NOT NULL primary key,
+  restaurant_id  bigint not null references restaurants(id),
+  name varchar(50) not null,
+  review text not null,
+  rating int not null check (rating>=1 and rating<=5)
+);
+
+INSERT INTO reviews (restaurant_id,name,review,rating) values('45','kailas','good restaurant',4);
+
+
+select trunc(AVG(rating),2) from reviews where restaurant_id=106;
+
+
+select count(rating) from reviews where restaurant_id=106;
