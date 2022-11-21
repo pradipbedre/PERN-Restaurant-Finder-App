@@ -11,18 +11,19 @@ const AddReview = () => {
   const location = useLocation();
 
   const handelSubmitReview = async (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     try {
       const response = await RestaurantApi.post(`/${id}/addReview`, {
         name,
         review,
         rating,
       });
-      navigate(`/`);
-      navigate(location.pathname);
+      //navigate(`/`);
+      //navigate(location.pathname);
     } catch (error) {
       console.log(error);
     }
+   
   };
 
   return (
