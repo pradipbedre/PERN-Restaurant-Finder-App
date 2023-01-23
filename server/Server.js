@@ -1,12 +1,14 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3005;
-const db = require("./db");
+const db = require("./db/index");
 const cors = require("cors");
+const dotenv = require("dotenv");
 
 // middleware to retrive Json data from body
 app.use(express.json());
 app.use(cors());
+dotenv.config()
 
 //Get all restaurants
 /*
