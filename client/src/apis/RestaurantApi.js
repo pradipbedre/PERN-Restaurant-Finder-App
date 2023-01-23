@@ -1,5 +1,6 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://localhost:3005/api/v1/restaurants",
+  /*   baseURL: process.env.SERVER, */
+  baseURL: "https://pradip-restaurants-backend.onrender.com/api/v1/restaurants",
 });
