@@ -1,4 +1,5 @@
-# PERN-restaurants-finder-app
+# Click Here
+## https://pradip-yelp-clone.netlify.app/
 
 This is full stack PERN app (Postgres, Express, React, Node.js) to understand the how any full stack product work
 
@@ -8,12 +9,12 @@ This is full stack PERN app (Postgres, Express, React, Node.js) to understand th
 
 ## Flow
 
-Step1: Create DB design
-Step2: Create Server and create api end points
-Step3: Connect server to postgres by using node-postgres library
-Step4: Set up frontend with react
-Step5: Use bootstrap and font Awesome for styling
-Step6: Use Context API for passing props
+- Step1: Create DB design
+- Step2: Create Server and create api end points
+- Step3: Connect server to postgres by using node-postgres library
+- Step4: Set up frontend with react
+- Step5: Use bootstrap and font Awesome for styling
+- Step6: Use Context API for passing props
 
 ## Problems Comes
 
